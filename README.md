@@ -8,3 +8,4 @@ Features:   <br>
   -enemies and bosses hp scales with further floors <br>
   -3 types of powerups        <br>
   -simple progression system  <br>
+  -simple animations and sound effects <br>
