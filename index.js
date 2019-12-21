@@ -342,6 +342,15 @@ function drawBackground() {
 	ctx.fill();
 }
 
+function drawBackground2() {
+	ctx.beginPath();
+	ctx.fillStyle = "#ccccee";
+	ctx.rect(0, 0, canvas.width, canvas.height);
+	
+	ctx.closePath();
+	ctx.fill();
+}
+
 function drawButtons() {
 	for(var i = 0; i < buttons.length; ++i) {
 		var btn = buttons[i];
@@ -428,14 +437,14 @@ function gameLoop() {
 		init_images = true;
 		
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawBackground();
+		drawBackground2();
 		requestAnimationFrame(gameLoop);
 		return;
 	}
 	if(!loaded_images)
 	{
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawBackground();
+		drawBackground2();
 		requestAnimationFrame(gameLoop);
 		return;
 	}
