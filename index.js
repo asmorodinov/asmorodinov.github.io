@@ -128,7 +128,7 @@ function initImages() {
 	
 	var loaded = fileNames.length;
 	for(var i = 0; i < fileNames.length; ++i) {
-		var img = new Image;
+		var img = new Image();
 		img.src = "asteroids/Assets/" + fileNames[i];
 		img.onload = function() {if(!--loaded) initGame()};
 		Imgs[names[i]] = img;
@@ -771,3 +771,4 @@ canvas.addEventListener('mousemove', function(event) {
 });
 
 initImages();
+//initGame();
