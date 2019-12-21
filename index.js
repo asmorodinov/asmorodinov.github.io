@@ -45,9 +45,9 @@ canvas.addEventListener('click', function() {
 	}
 });
 
-window.onload = function() {
-	setTimeout(function(){initImages();}, 1000);
-}
+//window.onload = function() {
+//	setTimeout(function(){initImages();}, 1000);
+//}
 
 var v1 = 0.2;
 var v2 = 1.0;
@@ -769,3 +769,5 @@ canvas.addEventListener('mousemove', function(event) {
 	mx = event.offsetX;
 	my = event.offsetY;
 });
+
+initImages();
