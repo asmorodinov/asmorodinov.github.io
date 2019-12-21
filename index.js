@@ -31,7 +31,7 @@ canvas.addEventListener('click', function() {
 		explosionSound = new Howl({src: ["asteroids/Assets/explosion.wav"], volume: 0.05});
 		selectionSound = new Howl({src: ["asteroids/Assets/select.wav"], volume: 0.9});
 		thrust_s = new Howl({src: ["asteroids/Assets/thrust.flac"], volume: 0.0, loop: true, sprite: {main: [0, 3100, true]}});
-		ost = new Howl({src: ["asteroids/Assets/ost.wav"], volume: 0.8, loop: true, html5: true});
+		ost = new Howl({src: ["asteroids/Assets/ost.wav"], volume: 0.8, loop: true, html5: false});
 		
 		loadedAudio = true;
 		
