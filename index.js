@@ -22,6 +22,9 @@ var thrust_s;
 var ost;
 
 var loadedAudio = false;
+var init_images = false;
+var loaded_images = false;
+var init_game = false;
 
 canvas.addEventListener('click', function() {
 	if(!loadedAudio)
@@ -130,7 +133,7 @@ function initImages() {
 	for(var i = 0; i < fileNames.length; ++i) {
 		var img = new Image();
 		img.src = "asteroids/Assets/" + fileNames[i];
-		img.onload = function() {if(!--loaded) initGame()};
+		img.onload = function() {if(!--loaded) loaded_images = true};
 		Imgs[names[i]] = img;
 	}
 }
@@ -326,7 +329,7 @@ function initGame() {
 			return gameState == GameState.Choosing;
 		}});
 	
-	gameLoop();
+	//gameLoop();
 	
 }
 
@@ -419,7 +422,32 @@ function newLevel() {
 }
 
 function gameLoop() {
-	
+	if(!init_images)
+	{
+		initImages();
+		init_images = true;
+		
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBackground();
+		requestAnimationFrame(gameLoop);
+		return;
+	}
+	if(!loaded_images)
+	{
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBackground();
+		requestAnimationFrame(gameLoop);
+		return;
+	}
+	if(!init_game)
+	{
+		init_game = true;
+		initGame();
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		drawBackground();
+		requestAnimationFrame(gameLoop);
+		return;
+	}
 	var now = ( performance || Date ).now();
     dt = Math.min((now - lastUpdate) * 0.001, 1.0 / 20.0);
 	++frameCnt;
@@ -770,5 +798,5 @@ canvas.addEventListener('mousemove', function(event) {
 	my = event.offsetY;
 });
 
-initImages();
+requestAnimationFrame(gameLoop);
 //initGame();
