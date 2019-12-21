@@ -14,12 +14,40 @@ var bulletFillStyle;
 var hom_bulletFillStyle;
 var boss_projFillStyle;
 
-var bulletSound = new Howl({src: ["asteroids/Assets/laser.wav"], volume: 0.01});
-var powerupSound = new Howl({src: ["asteroids/Assets/powerup.wav"], volume: 0.3});
-var explosionSound = new Howl({src: ["asteroids/Assets/explosion.wav"], volume: 0.05});
-var selectionSound = new Howl({src: ["asteroids/Assets/select.wav"], volume: 0.9});
-var thrust_s = new Howl({src: ["asteroids/Assets/thrust.flac"], volume: 0.0, loop: true, sprite: {main: [0, 3100, true]}});
-var ost = new Howl({src: ["asteroids/Assets/ost.wav"], volume: 0.8, loop: true, html5: true});
+var bulletSound; 
+var powerupSound;
+var explosionSound;
+var selectionSound;
+var thrust_s;
+var ost;
+
+var loadedAudio = false;
+
+canvas.addEventListener('click', function() {
+	if(!loadedAudio)
+	{
+		bulletSound = new Howl({src: ["asteroids/Assets/laser.wav"], volume: 0.01});
+		powerupSound = new Howl({src: ["asteroids/Assets/powerup.wav"], volume: 0.3});
+		explosionSound = new Howl({src: ["asteroids/Assets/explosion.wav"], volume: 0.05});
+		selectionSound = new Howl({src: ["asteroids/Assets/select.wav"], volume: 0.9});
+		thrust_s = new Howl({src: ["asteroids/Assets/thrust.flac"], volume: 0.0, loop: true, sprite: {main: [0, 3100, true]}});
+		ost = new Howl({src: ["asteroids/Assets/ost.wav"], volume: 0.8, loop: true, html5: true});
+		
+		loadedAudio = true;
+		
+		ost.volume(vol * v4);
+		ost.play();
+		bulletSound.volume(vol2 * v1); 
+		powerupSound.volume(vol2 * v2); 
+		explosionSound.volume(vol2 * v3);
+		selectionSound.volume(vol2 * v5);
+	
+	}
+});
+
+window.onload = function() {
+	setTimeout(function(){initImages();}, 1000);
+}
 
 var v1 = 0.2;
 var v2 = 1.0;
@@ -27,9 +55,9 @@ var v3 = 0.3;
 var v4 = 1.0;
 var v5 = 0.4;
 
-ost.on('load', function(){
-  setTimeout(function(){ost.play();}, 1000);
-});
+//ost.on('load', function(){
+//  setTimeout(function(){ost.play();}, 1000);
+//});
 
 var cooling = 0;
 
@@ -138,13 +166,7 @@ function resetGame() {
 	ship.bar = true;
 	
 	spaceObjects.push(ship);
-	
-	ost.volume(vol * v4);
-	bulletSound.volume(vol2 * v1); 
-	powerupSound.volume(vol2 * v2); 
-	explosionSound.volume(vol2 * v3);
-	selectionSound.volume(vol2 * v5);
-	
+
 	newLevel();
 }
 
@@ -416,7 +438,7 @@ function gameLoop() {
 			var btn = buttons[i];
 			if(btn.cond() && btn.state != 2){
 				if ((mx > btn.x - btn.w / 2.0) && (mx < btn.x + btn.w / 2.0) && (my > btn.y - btn.h / 2.0) && (my < btn.y + btn.h / 2.0)) {
-					if(btn.state == 0)
+					if(btn.state == 0 && loadedAudio)
 						selectionSound.play();
 					btn.state = 1;
 				} else {
@@ -711,11 +733,22 @@ function gameLoop() {
 		powerups.removeIf(function(object, i) {return object.remove;});
 	}
 	drawButtons();
+	
+	if(!loadedAudio)
+	{
+		ctx.font = '36px FR73PixelW00-Regular';
+		ctx.fillStyle = "#EE4444";
+		//ctx.textAlign = "start";
+		ctx.textAlign = "center"; 
+		ctx.fillText("Please click anywhere to allow sounds", canvas.width / 2, 150);
+	}
 	//stats.end();
 	requestAnimationFrame(gameLoop);
 }
 
 canvas.addEventListener('click', function(event) { 
+	if(!loadedAudio)
+		return;
 	if(gameState != GameState.GameOver){
 		for(var i = 0; i < buttons.length; ++i) {
 			var btn = buttons[i];
@@ -736,5 +769,3 @@ canvas.addEventListener('mousemove', function(event) {
 	mx = event.offsetX;
 	my = event.offsetY;
 });
-
-initImages();
